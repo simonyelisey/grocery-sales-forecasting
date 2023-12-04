@@ -1,0 +1,25 @@
+paths:
+      sells: 'data/sells__tmp.parquet'
+      models: 'models'
+      predictions: 'data/predictions'
+
+constants:
+      predicting_unit: 'unit_id'
+      date_col: 'date'
+      horizont: 7
+      raw_target: 'unit_sales'
+
+feature_generation:
+      rolling_windows: [7, 14, 21]
+
+modeling:
+      target: 'target_07'
+      drop_columns: ['unit_id', 'date', 'target', 'year', 'month', 'dayofweek', 'day', 'dayofyear', 'week']
+
+catboost_params:
+      iterations: 500
+      best_model_min_trees: 20
+      verbose: 0
+      random_state: 42
+      loss_function: 'RMSE'
+      max_depth: 4
