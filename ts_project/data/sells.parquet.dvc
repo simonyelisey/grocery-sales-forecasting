@@ -1,0 +1,5 @@
+outs:
+- md5: 0052a535c57251ac56bac08f1eedfc16
+  size: 498157
+  hash: md5
+  path: sells.parquet
