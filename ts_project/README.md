@@ -21,6 +21,8 @@ poetry run python infer.py
 ```
 ## Переобучение модели
 ```
+mlflow server --host 127.0.0.1 --port 8080                   # запуск сервера для логгирования mlflow
+
 poetry run python train.py                                   # обучение
 
 dvc add data/file_name.parquet, models/new_model_name.cbm    # обновление данных и модели в dvc
@@ -61,6 +63,6 @@ dvc push
 - max_depth = 4.
 
 ## Метрики
-MedianAPE = 0.4 
+MedianAPE = 0.4
 
 WAPE = 0.47
