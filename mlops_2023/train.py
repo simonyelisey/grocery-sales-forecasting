@@ -11,7 +11,7 @@ from mlflow.models import infer_signature
 from omegaconf import DictConfig
 
 
-@hydra.main(version_base=None, config_path="conf", config_name="config")
+@hydra.main(version_base=None, config_path="../configs", config_name="config")
 def main(cfg: DictConfig):
     """
     Функция реализует обучения модели & логгирование метрик.
@@ -87,8 +87,6 @@ def main(cfg: DictConfig):
                 input_example=train_data,
                 registered_model_name=cfg["mlflow"]["registered_model_name"],
             )
-
-    print("SUCCESS")
 
 
 if __name__ == "__main__":
