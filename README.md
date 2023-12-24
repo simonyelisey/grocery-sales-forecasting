@@ -7,7 +7,7 @@
 ## Первоначальная конфигурация
 ```
 git clone https://github.com/simonyelisey/mlops_2023.git # клонирование репозитория
-cd mlops_2023/ts_project
+cd mlops_2023
 conda create -n ts_project_env python=3.9 -y -q          # создание окружения
 conda activate ts_project_env
 conda install poetry -y
@@ -17,13 +17,13 @@ dvc pull                                                 # загрузка да
 
 ## Запуск инференса
 ```
-poetry run python infer.py
+poetry run python mlops_2023/infer.py
 ```
 ## Переобучение модели
 ```
 mlflow server --host 127.0.0.1 --port 8080                   # запуск сервера для логгирования mlflow
 
-poetry run python train.py                                   # обучение
+poetry run python mlops_2023/train.py                        # обучение
 
 dvc add data/file_name.parquet, models/new_model_name.cbm    # обновление данных и модели в dvc
 dvc remote add --default myremote gdrive://{folder_id}
