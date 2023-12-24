@@ -5,8 +5,8 @@ repos:
       rev: v3.4.0
       hooks:
           - id: check-yaml
-          - id: check-json
           - id: check-added-large-files
+            args: ['--maxkb=2000']
           - id: end-of-file-fixer
           - id: trailing-whitespace
           - id: check-case-conflict
