@@ -21,3 +21,11 @@ class Metrics:
         metric = np.median(np.abs(actual - prediction) / actual)
 
         return metric
+
+    def mae(self):
+        actual = self.actual
+        prediction = self.prediction
+
+        metric = np.mean(np.abs(actual - prediction))
+
+        return metric

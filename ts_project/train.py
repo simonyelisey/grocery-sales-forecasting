@@ -1,5 +1,4 @@
 import os
-import warnings
 
 import feature_generation
 import hydra
@@ -12,13 +11,11 @@ from mlflow.models import infer_signature
 from omegaconf import DictConfig
 
 
-@hydra.main(version_base=None, config_path="conf", config_name="config")
+@hydra.main(version_base=None, config_path="../configs", config_name="config")
 def main(cfg: DictConfig):
     """
     Функция реализует обучения модели & логгирование метрик.
     """
-    warnings.filterwarnings("ignore")
-
     drop_features = cfg["modeling"]["drop_columns"]
     target = cfg["modeling"]["target"]
 
@@ -74,6 +71,7 @@ def main(cfg: DictConfig):
             # Log the loss metric
             mlflow.log_metric("WAPE", all_metrics.wape())
             mlflow.log_metric("MedianApe", all_metrics.median_ape())
+            mlflow.log_metric("MAE", all_metrics.mae())
 
             # set a tag
             mlflow.set_tag(cfg["mlflow"]["tag_name"], cfg["mlflow"]["tag_value"])
@@ -89,8 +87,6 @@ def main(cfg: DictConfig):
                 input_example=train_data,
                 registered_model_name=cfg["mlflow"]["registered_model_name"],
             )
-
-    print("SUCCES")
 
 
 if __name__ == "__main__":

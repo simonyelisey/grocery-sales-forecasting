@@ -1,6 +1,5 @@
 import datetime
 import os
-import warnings
 
 import feature_generation
 import hydra
@@ -10,13 +9,11 @@ from catboost import CatBoostRegressor
 from omegaconf import DictConfig
 
 
-@hydra.main(version_base=None, config_path="conf", config_name="config")
+@hydra.main(version_base=None, config_path="../configs", config_name="config")
 def main(cfg: DictConfig):
     """
     Функция реализует прогнозирование предобученной моделью.
     """
-    warnings.filterwarnings("ignore")
-
     drop_features = cfg["modeling"]["drop_columns"]
     target = cfg["modeling"]["target"]
 
@@ -72,10 +69,9 @@ def main(cfg: DictConfig):
     today = datetime.datetime.now().date()
 
     next_period_prediction.to_csv(
-        os.path.join(cfg["paths"]["predictions"], f"prediction_{today}"), index=False
+        os.path.join(cfg["paths"]["predictions"], f"prediction_{today}.csv"),
+        index=False,
     )
-
-    print("SUCCES")
 
 
 if __name__ == "__main__":
