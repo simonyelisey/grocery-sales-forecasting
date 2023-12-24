@@ -16,6 +16,7 @@ def main(cfg: DictConfig):
     """
     Функция реализует обучения модели & логгирование метрик.
     """
+
     drop_features = cfg["modeling"]["drop_columns"]
     target = cfg["modeling"]["target"]
 
