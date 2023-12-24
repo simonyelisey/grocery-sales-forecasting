@@ -16,10 +16,19 @@ modeling:
       target: 'target_07'
       drop_columns: ['unit_id', 'date', 'target', 'year', 'month', 'dayofweek', 'day', 'dayofyear', 'week']
 
+mlflow:
+      logging: True
+      logging_uri: "http://127.0.0.1:8080"
+      experiment_name: "CatBoostRegressor"
+      tag_name: "2000_iterations_6_depth"
+      tag_value: "Basic catboost model."
+      artifact_path: "ts_model_2000_6"
+      registered_model_name: "catboost-2000-6-ts"
+
 catboost_params:
-      iterations: 500
+      iterations: 2000
       best_model_min_trees: 20
       verbose: 0
       random_state: 42
       loss_function: 'RMSE'
-      max_depth: 4
+      max_depth: 6
