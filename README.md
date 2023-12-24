@@ -7,10 +7,10 @@
 ## Первоначальная конфигурация
 ```
 git clone https://github.com/simonyelisey/mlops_2023.git # клонирование репозитория
+cd mlops_2023/ts_project
 conda create -n ts_project_env python=3.9 -y -q          # создание окружения
 conda activate ts_project_env
-conda install poetry
-cd mlops_2023/ts_project
+conda install poetry -y
 poetry install                                           # установка зависимостей
 dvc pull                                                 # загрузка данных и моделей
 ```

@@ -1,5 +1,5 @@
 paths:
-      sells: 'data/sells__tmp.parquet'
+      sells: 'data/sells.parquet'
       models: 'models'
       predictions: 'data/predictions'
 

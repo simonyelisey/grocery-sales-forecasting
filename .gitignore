@@ -2,9 +2,11 @@
 *.csv
 *.parquet
 *.cbm
-/.idea
-/__pycache__
+*/.idea
+.idea
+__pycache__
 /catboost_info
 /outputs
 /mlartifacts
 /mlruns
+/ts_project

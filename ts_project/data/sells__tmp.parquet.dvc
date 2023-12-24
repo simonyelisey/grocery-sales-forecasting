@@ -1,5 +1,0 @@
-outs:
-- md5: 7333e20ab67be6606136b4bd424dbb22
-  size: 57775
-  hash: md5
-  path: sells__tmp.parquet
