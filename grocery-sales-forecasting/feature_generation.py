@@ -279,9 +279,9 @@ def apply_feature_generation(
             data=sells_data.copy(),
             target=target,
             gb_cols=[predicting_unit],
-            windows=[w],
+            windows=[window],
         )
-        for w in rolling_windows
+        for window in rolling_windows
     )
 
     rolling_features_df = pd.concat(rolling_features, axis=1)
