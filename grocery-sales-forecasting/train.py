@@ -1,21 +1,24 @@
 import os
 
 import feature_generation
-import hydra
 import metrics
 import mlflow
 import pandas as pd
 import target_generation
 from catboost import CatBoostRegressor
+from hydra import compose, initialize
 from mlflow.models import infer_signature
-from omegaconf import DictConfig
 
 
-@hydra.main(version_base=None, config_path="../configs", config_name="config")
-def main(cfg: DictConfig):
+def main():
     """
     Функция реализует обучения модели & логгирование метрик.
     """
+    initialize(version_base=None, config_path="../configs")
+    cfg = compose(config_name="config.yaml")
+    cfg_mlflow = compose(config_name="mlflow.yaml")
+    cfg_catboost = compose(config_name="catboost_params.yaml")
+
     drop_features = cfg["modeling"]["drop_columns"]
     target = cfg["modeling"]["target"]
 
@@ -45,23 +48,23 @@ def main(cfg: DictConfig):
     train_data = features[~features[target].isna()][features_list]
     train_target = features[~features[target].isna()][target]
 
-    model = CatBoostRegressor(**cfg["catboost_params"])
+    model = CatBoostRegressor(**cfg_catboost["catboost_params"])
 
     model.fit(train_data, train_target)
 
     model.save_model(os.path.join(cfg["paths"]["models"], "catboost.cbm"), format="cbm")
 
-    if cfg["mlflow"]["logging"]:
+    if cfg_mlflow["mlflow"]["logging"]:
         # set tracking server uri for logging
-        mlflow.set_tracking_uri(uri=cfg["mlflow"]["logging_uri"])
+        mlflow.set_tracking_uri(uri=cfg_mlflow["mlflow"]["logging_uri"])
 
         # create a new MLflow Experiment
-        mlflow.set_experiment(cfg["mlflow"]["experiment_name"])
+        mlflow.set_experiment(cfg_mlflow["mlflow"]["experiment_name"])
 
         # start an MLflow run
         with mlflow.start_run():
             # log the hyperparameters
-            mlflow.log_params(cfg["catboost_params"])
+            mlflow.log_params(cfg_catboost["catboost_params"])
 
             # calculate metrics
             all_metrics = metrics.Metrics(
@@ -74,7 +77,9 @@ def main(cfg: DictConfig):
             mlflow.log_metric("MAE", all_metrics.mae())
 
             # set a tag
-            mlflow.set_tag(cfg["mlflow"]["tag_name"], cfg["mlflow"]["tag_value"])
+            mlflow.set_tag(
+                cfg_mlflow["mlflow"]["tag_name"], cfg_mlflow["mlflow"]["tag_value"]
+            )
 
             # Infer the model signature
             signature = infer_signature(train_data, model.predict(train_data))
@@ -82,10 +87,10 @@ def main(cfg: DictConfig):
             # Log the model
             mlflow.sklearn.log_model(
                 sk_model=model,
-                artifact_path=cfg["mlflow"]["artifact_path"],
+                artifact_path=cfg_mlflow["mlflow"]["artifact_path"],
                 signature=signature,
                 input_example=train_data,
-                registered_model_name=cfg["mlflow"]["registered_model_name"],
+                registered_model_name=cfg_mlflow["mlflow"]["registered_model_name"],
             )
 
 
