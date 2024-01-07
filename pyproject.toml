@@ -1,10 +1,10 @@
 [tool.poetry]
-name = "mlops-2023"
+name = "grocery-sales-forecasting"
 version = "0.1.0"
 description = ""
 authors = ["simonyelisey <yeliseevsemyon@gmail.com>"]
 readme = "README.md"
-packages = [{include = "mlops_2023"}]
+packages = [{include = "grocery-sales-forecasting"}]
 
 [tool.poetry.dependencies]
 python = "^3.9"
