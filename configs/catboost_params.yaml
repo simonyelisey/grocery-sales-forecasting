@@ -1,0 +1,7 @@
+catboost_params:
+      iterations: 2000
+      best_model_min_trees: 20
+      verbose: 0
+      random_state: 42
+      loss_function: 'RMSE'
+      max_depth: 6
