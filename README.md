@@ -6,6 +6,7 @@
 
 ## Первоначальная конфигурация
 ```
+
 git clone https://github.com/simonyelisey/grocery-sales-forecasting.git   # клонирование репозитория
 cd grocery-sales-forecasting
 conda create -n ts_project_env python=3.9 -y -q                           # создание окружения
