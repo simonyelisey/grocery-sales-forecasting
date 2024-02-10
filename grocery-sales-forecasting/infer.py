@@ -9,7 +9,7 @@ from catboost import CatBoostRegressor
 from omegaconf import DictConfig
 
 
-@hydra.main(version_base=None, config_path="../configs", config_name="config")
+@hydra.main(version_base=None, config_path="configs", config_name="config")
 def main(cfg: DictConfig):
     """
     Функция реализует прогнозирование предобученной моделью.

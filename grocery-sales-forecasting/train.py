@@ -14,7 +14,7 @@ def main():
     """
     Функция реализует обучения модели & логгирование метрик.
     """
-    initialize(version_base=None, config_path="../configs")
+    initialize(version_base=None, config_path="configs")
     cfg = compose(config_name="config.yaml")
     cfg_mlflow = compose(config_name="mlflow.yaml")
     cfg_catboost = compose(config_name="catboost_params.yaml")
