@@ -9,27 +9,9 @@
 
 git clone https://github.com/simonyelisey/grocery-sales-forecasting.git   # клонирование репозитория
 cd grocery-sales-forecasting
-conda create -n ts_project_env python=3.9 -y -q                           # создание окружения
-conda activate ts_project_env
-conda install poetry -y
-poetry install                                                            # установка зависимостей
-dvc pull                                                                  # загрузка данных и моделей
-```
-
-## Запуск инференса
-```
-poetry run python grocery-sales-forecasting/infer.py
-```
-## Переобучение модели
-```
-mlflow server --host 127.0.0.1 --port 8080                      # запуск сервера для логгирования mlflow
-
-poetry run python grocery-sales-forecasting/train.py            # обучение
-
-dvc add data/file_name.parquet, models/new_model_name.cbm       # обновление данных и модели в dvc
-dvc remote add --default myremote gdrive://{folder_id}
-dvc remote modify myremote gdrive_acknowledge_abuse true
-dvc push
+make get_data                                                            # загрузка данных и моделей
+make build                                                               # создание доккер-образа
+make run                                                                 # запуск работы модели
 ```
 
 ## Основная схема

@@ -10,21 +10,17 @@ COPY ./data ./data
 COPY ./grocery-sales-forecasting ./grocery-sales-forecasting
 COPY ./models ./models
 COPY ./main.py ./main.py
+COPY ./poetry.lock ./poetry.lock
+COPY ./pyproject.toml ./pyproject.toml
 COPY ./requirements.txt ./requirements.txt
-#COPY ./poetry.lock ./poetry.lock
-#COPY ./pyproject.toml ./pyproject.toml
 
 # Install any needed packages specified in pyproject.toml
-#RUN pip install --upgrade pip
-#RUN pip install --no-cache-dir -r requirements.txt
-RUN apt-get update -y && sudo apt-get install gcc
-RUN python3 -m pip install --no-cache-dir --upgrade pip \
-      && python3 -m pip install -U setuptools \
-      && python3 -m pip install --no-cache-dir -r requirements.txt
-RUN dvc pull
-#RUN pip install poetry
-#RUN poetry install
-#dvc pull
+RUN apt-get update && apt-get install -y \
+    gcc python3-dev \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN pip install poetry
+RUN poetry install
+RUN pip install -r requirements.txt
 
-# Run app.py when the container launches
+# Run main.py when the container launches
 CMD ["python3", "./main.py"]

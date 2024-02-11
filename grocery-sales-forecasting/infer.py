@@ -9,7 +9,7 @@ from catboost import CatBoostRegressor
 from omegaconf import DictConfig
 
 
-@hydra.main(version_base=None, config_path="configs", config_name="config")
+@hydra.main(version_base=None, config_path="../configs", config_name="config")
 def main(cfg: DictConfig):
     """
     Функция реализует прогнозирование предобученной моделью.
@@ -71,6 +71,10 @@ def main(cfg: DictConfig):
     next_period_prediction.to_csv(
         os.path.join(cfg["paths"]["predictions"], f"prediction_{today}.csv"),
         index=False,
+    )
+
+    print(
+        f"{datetime.datetime.now()}, success inference. Prediction is saved to {cfg['paths']['predictions']} folder."
     )
 
 

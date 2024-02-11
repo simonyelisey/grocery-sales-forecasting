@@ -1,3 +1,4 @@
+import datetime
 import os
 
 import feature_generation
@@ -14,7 +15,7 @@ def main():
     """
     Функция реализует обучения модели & логгирование метрик.
     """
-    initialize(version_base=None, config_path="configs")
+    initialize(version_base=None, config_path="../configs")
     cfg = compose(config_name="config.yaml")
     cfg_mlflow = compose(config_name="mlflow.yaml")
     cfg_catboost = compose(config_name="catboost_params.yaml")
@@ -53,6 +54,10 @@ def main():
     model.fit(train_data, train_target)
 
     model.save_model(os.path.join(cfg["paths"]["models"], "catboost.cbm"), format="cbm")
+
+    print(
+        f"{datetime.datetime.now()}, success train. Model is saved to {cfg['paths']['models']} folder."
+    )
 
     if cfg_mlflow["mlflow"]["logging"]:
         # set tracking server uri for logging
