@@ -9,6 +9,7 @@ COPY ./configs ./configs
 COPY ./data ./data
 COPY ./grocery-sales-forecasting ./grocery-sales-forecasting
 COPY ./models ./models
+COPY ./sql ./sql
 COPY ./main.py ./main.py
 COPY ./poetry.lock ./poetry.lock
 COPY ./pyproject.toml ./pyproject.toml

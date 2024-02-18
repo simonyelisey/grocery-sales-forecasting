@@ -10,3 +10,4 @@ __pycache__
 /mlartifacts
 /mlruns
 /ts_project
+*.env

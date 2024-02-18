@@ -4,11 +4,12 @@ import os
 import feature_generation
 import metrics
 import mlflow
-import pandas as pd
 import target_generation
 from catboost import CatBoostRegressor
 from hydra import compose, initialize
 from mlflow.models import infer_signature
+
+from sql import database_connection
 
 
 def main():
@@ -23,7 +24,16 @@ def main():
     drop_features = cfg["modeling"]["drop_columns"]
     target = cfg["modeling"]["target"]
 
-    data = pd.read_parquet(cfg["paths"]["sells"])
+    mydb = database_connection.SoccerDatabase(
+        host=os.environ["POSTGRES_HOST"],
+        database=os.environ["POSTGRES_DB"],
+        user=os.environ["POSTGRES_USER"],
+        password=os.environ["POSTGRES_PASSWORD"],
+        port=os.environ["POSTGRES_PORT"],
+    )
+
+    data = mydb.query("select * from sales")
+    mydb.close()
 
     # generate features
     features = feature_generation.apply_feature_generation(

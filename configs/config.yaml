@@ -15,3 +15,6 @@ feature_generation:
 modeling:
       target: 'target_07'
       drop_columns: ['unit_id', 'date', 'target', 'year', 'month', 'dayofweek', 'day', 'dayofyear', 'week']
+
+sql:
+  tables_creation_queries_path: './sql/create_tables'

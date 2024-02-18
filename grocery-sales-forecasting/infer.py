@@ -2,22 +2,52 @@ import datetime
 import os
 
 import feature_generation
-import hydra
 import pandas as pd
 import target_generation
 from catboost import CatBoostRegressor
-from omegaconf import DictConfig
+from hydra import compose, initialize
+
+from sql import database_connection
 
 
-@hydra.main(version_base=None, config_path="../configs", config_name="config")
-def main(cfg: DictConfig):
+def check_create_table(db_connection, table_name: str, queries_path: str) -> None:
+    """
+    Проверка присутсвия таблицы в БД и ее создание в случае отсутсвия.
+
+    :param db_connection: соединение с БД
+    :param table_name: str название таблицы
+    :param queries_path: str путь к запросам по созданию таблиц
+
+    :return: None
+    """
+    tables = db_connection.show_tables()
+
+    if table_name not in tables:
+        with open(os.path.join(queries_path, f"{table_name}.sql"), "r") as f:
+            query = f.read()
+
+            db_connection.create_table(query=query)
+
+
+def main():
     """
     Функция реализует прогнозирование предобученной моделью.
     """
+    initialize(version_base=None, config_path="../configs")
+    cfg = compose(config_name="config.yaml")
+
     drop_features = cfg["modeling"]["drop_columns"]
     target = cfg["modeling"]["target"]
 
-    data = pd.read_parquet(cfg["paths"]["sells"])
+    mydb = database_connection.SoccerDatabase(
+        host=os.environ["POSTGRES_HOST"],
+        database=os.environ["POSTGRES_DB"],
+        user=os.environ["POSTGRES_USER"],
+        password=os.environ["POSTGRES_PASSWORD"],
+        port=os.environ["POSTGRES_PORT"],
+    )
+
+    data = mydb.query("select * from sales")
 
     # generate features
     features = feature_generation.apply_feature_generation(
@@ -68,13 +98,20 @@ def main(cfg: DictConfig):
 
     today = datetime.datetime.now().date()
 
-    next_period_prediction.to_csv(
-        os.path.join(cfg["paths"]["predictions"], f"prediction_{today}.csv"),
-        index=False,
+    next_period_prediction["predicted_from"] = today
+
+    check_create_table(
+        db_connection=mydb,
+        table_name="predictions",
+        queries_path=cfg["sql"]["tables_creation_queries_path"],
     )
 
+    mydb.write_dataframe(table_name="predictions", df=next_period_prediction)
+
+    mydb.close()
+
     print(
-        f"{datetime.datetime.now()}, success inference. Prediction is saved to {cfg['paths']['predictions']} folder."
+        f"{datetime.datetime.now()}, success inference. Prediction is saved to predictions table."
     )
 
 

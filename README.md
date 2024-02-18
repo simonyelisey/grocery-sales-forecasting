@@ -7,11 +7,11 @@
 ## Инструкция по запуску
 ```
 
-git clone --branch checkpoint_1 https://github.com/simonyelisey/grocery-sales-forecasting.git   # клонирование репозитория
+git clone --branch checkpoint_2 https://github.com/simonyelisey/grocery-sales-forecasting.git           # clone repo
 cd grocery-sales-forecasting
-make get_data                                                                                   # загрузка данных и моделей
-make build                                                                                      # создание доккер-образа
-make run                                                                                        # запуск работы модели
+make get_data                                                                     # download sql dump and pretrained model
+make build                                                                        # build/rebuild servces
+make up                                                                           # create and start containers
 ```
 
 ## Основная схема

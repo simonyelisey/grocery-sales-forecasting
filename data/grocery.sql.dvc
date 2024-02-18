@@ -1,0 +1,5 @@
+outs:
+- md5: 196f3a9ab16d2821f632da5f1f1d49f9
+  size: 5945241
+  hash: md5
+  path: grocery.sql

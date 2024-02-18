@@ -17,6 +17,7 @@ def main():
         inference()
     else:
         inference()
+        hydra.core.global_hydra.GlobalHydra.instance().clear()
 
 
 if __name__ == "__main__":

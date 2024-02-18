@@ -346,6 +346,7 @@ def apply_feature_generation(
     gc.collect()
 
     # cyclical features
+    sells_data[date_col] = pd.to_datetime(sells_data[date_col])
     sells_data = sells_data.merge(cyclycal_data, on=[date_col])
 
     return sells_data

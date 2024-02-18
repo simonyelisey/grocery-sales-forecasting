@@ -1,0 +1,25 @@
+version: "2.21"
+
+services:
+  db:
+    image: postgres:15.0
+    ports:
+      - 8000:5432
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - ./data/grocery.sql:/grocery.sql
+      - ./restore.sh:/docker-entrypoint-initdb.d/restore.sh
+    env_file:
+      - .env
+
+  model:
+    build: ./
+    command: python ./main.py
+    depends_on:
+      - db
+    env_file:
+      - .env
+    image: sales-forecasting:cp2
