@@ -3,7 +3,8 @@ NAME_IMAGE = sales-forecasting:cp1
 NAME_CONTAINER = sales-forecasting
 
 get_data:
-	@pip install dvc && pip install dvc_gdrive
+	@pip install dvc==3.31.1 && pip install dvc_gdrive==2.20.0
+	@dvc fetch data/sells.parquet models/catboost.cbm
 	@dvc pull
 
 build:
