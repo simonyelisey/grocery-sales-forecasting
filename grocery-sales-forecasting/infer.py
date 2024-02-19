@@ -68,6 +68,9 @@ def main(cfg: DictConfig):
 
     today = datetime.datetime.now().date()
 
+    if not os.path.exists(cfg["paths"]["predictions"]):
+        os.mkdir(cfg["paths"]["predictions"])
+
     next_period_prediction.to_csv(
         os.path.join(cfg["paths"]["predictions"], f"prediction_{today}.csv"),
         index=False,
