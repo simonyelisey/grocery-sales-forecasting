@@ -2,4 +2,4 @@
     remote = myremote
 ['remote "myremote"']
     url = gdrive://1QGGLweJK1hfEurzoVACcD2nw1trHkv6i
-    gdrive_acknowledge_abuse = true
+    gdrive_acknowledge_abuse = false
