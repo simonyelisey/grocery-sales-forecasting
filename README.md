@@ -12,7 +12,6 @@ cd grocery-sales-forecasting
 pip install dvc==3.31.1 && pip install dvc_gdrive==2.20.0                       # download sql dump and pretrained model
 dvc fetch data/grocery.sql models/catboost.cbm
 dvc pull
-make get_data
 make build                                                                        # build/rebuild servces
 make up                                                                           # create and start containers
 ```
