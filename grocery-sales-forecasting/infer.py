@@ -2,6 +2,7 @@ import datetime
 import os
 
 import feature_generation
+import hydra
 import pandas as pd
 import target_generation
 from catboost import CatBoostRegressor
@@ -113,6 +114,8 @@ def main():
     print(
         f"{datetime.datetime.now()}, success inference. Prediction is saved to predictions table."
     )
+
+    hydra.core.global_hydra.GlobalHydra.instance().clear()
 
 
 if __name__ == "__main__":

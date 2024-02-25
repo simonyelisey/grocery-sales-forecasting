@@ -11,6 +11,7 @@ COPY ./grocery-sales-forecasting ./grocery-sales-forecasting
 COPY ./models ./models
 COPY ./sql ./sql
 COPY ./main.py ./main.py
+COPY ./tasks.py ./tasks.py
 COPY ./poetry.lock ./poetry.lock
 COPY ./pyproject.toml ./pyproject.toml
 COPY ./requirements.txt ./requirements.txt

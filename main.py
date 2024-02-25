@@ -4,20 +4,21 @@ import sys
 
 sys.path.append("./grocery-sales-forecasting")
 import hydra
-from infer import main as inference
-from train import main as training
+
+from tasks import make_inference as inference
+from tasks import make_train as training
 
 
 def main():
     if datetime.datetime.now().day % 14 == 0 or "catboost.cbm" not in os.listdir(
         "./models"
     ):
-        training()
         hydra.core.global_hydra.GlobalHydra.instance().clear()
-        inference()
+        training.delay()
+
     else:
-        inference()
         hydra.core.global_hydra.GlobalHydra.instance().clear()
+        inference.delay()
 
 
 if __name__ == "__main__":

@@ -14,6 +14,7 @@ dvc fetch data/grocery.sql models/catboost.cbm
 dvc pull
 make build                                                                        # build/rebuild servces
 make up                                                                           # create and start containers
+make run_model									# run model
 ```
 
 ## Основная схема

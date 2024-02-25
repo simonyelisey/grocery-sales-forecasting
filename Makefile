@@ -9,4 +9,4 @@ up:
 	@docker-compose up
 
 run_model:
-	@docker-compose run model
+	@docker-compose exec model python3 main.py
