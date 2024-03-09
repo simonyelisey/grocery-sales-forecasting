@@ -8,9 +8,12 @@ WORKDIR /usr/src/app
 COPY ./configs ./configs
 COPY ./data ./data
 COPY ./grocery-sales-forecasting ./grocery-sales-forecasting
+COPY ./grocery_sales_forecasting_web ./grocery_sales_forecasting_web
 COPY ./models ./models
 COPY ./sql ./sql
-COPY ./main.py ./main.py
+COPY ./templates ./templates
+COPY ./.env ./.env
+COPY ./manage.py ./manage.py
 COPY ./poetry.lock ./poetry.lock
 COPY ./pyproject.toml ./pyproject.toml
 COPY ./requirements.txt ./requirements.txt
@@ -22,6 +25,3 @@ RUN apt-get update && apt-get install -y \
 RUN pip install poetry
 RUN poetry install
 RUN pip install -r requirements.txt
-
-# Run main.py when the container launches
-CMD ["python3", "./main.py"]

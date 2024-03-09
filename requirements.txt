@@ -13,3 +13,4 @@ mlflow==2.9.2
 sqlalchemy==1.4.39
 psycopg2-binary==2.9.9
 mlflow==2.9.2
+Django==4.2.11

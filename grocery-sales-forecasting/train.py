@@ -34,6 +34,7 @@ def main():
 
     data = mydb.query("select * from sales")
     mydb.close()
+    # data = pd.read_parquet('data/sells.parquet')
 
     # generate features
     features = feature_generation.apply_feature_generation(

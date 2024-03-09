@@ -8,5 +8,5 @@ build:
 up:
 	@docker-compose up
 
-run_model:
-	@docker-compose run model
+migrate:
+	@docker-compose exec web python manage.py migrate --noinput

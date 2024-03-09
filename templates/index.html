@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Forecasting page</title>
+  </head>
+  <body>
+    <h1>Grocery Sales Forecasting</h1>
+    <p>Sales predicting by stores</p>
+    <form action="{% url 'result' %}">
+      {% csrf_token %}
+
+      <h2>Forecasting</h2>
+      <h3>Provide store number:</h3>
+      <p>Available stores:</p>
+      <p>[1  2  3  4  5  6  7  8  9 11 12 15 17 18 19 23 24 26 28 30 31 33 37 38 39 41 43 44 45 46 47 48 49 50 51]</p>
+      <input type="text" name="store_number">
+      <br>
+
+      <input type="submit" value='Get Predictions'>
+    </form>
+    <form action="{% url 'result_training' %}">
+        {% csrf_token %}
+
+        <h2>Training</h2>
+
+        <input type="submit" onclick="alert(Training is started, please wait...)" value='Train model'>
+      </form>
+  </body>
+</html>
