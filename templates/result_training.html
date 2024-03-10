@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Result</title>
+  </head>
+  <body>
+    <h1>Training status</h1>
+
+    {{ result }}
+
+    <form action="{% url 'home' %}">
+      {% csrf_token %}
+
+      <input type="submit" value='Back'>
+    </form>
+
+  </body>
+</html>

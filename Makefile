@@ -3,10 +3,10 @@ get_data:
 	@dvc pull
 
 build:
-	@docker-compose build
+	@docker-compose build --no-cache
 
 up:
 	@docker-compose up
 
-run_model:
-	@docker-compose exec model python3 main.py
+migrate:
+	@docker-compose exec web python manage.py migrate --noinput

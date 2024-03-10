@@ -2,10 +2,8 @@ import datetime
 import os
 
 import feature_generation
-import hydra
 import metrics
 import mlflow
-import pandas as pd
 import target_generation
 from catboost import CatBoostRegressor
 from hydra import compose, initialize
@@ -109,8 +107,6 @@ def main():
                 input_example=train_data,
                 registered_model_name=cfg_mlflow["mlflow"]["registered_model_name"],
             )
-
-    hydra.core.global_hydra.GlobalHydra.instance().clear()
 
 
 if __name__ == "__main__":

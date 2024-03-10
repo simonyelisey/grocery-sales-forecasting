@@ -2,7 +2,6 @@ import datetime
 import os
 
 import feature_generation
-import hydra
 import pandas as pd
 import target_generation
 from catboost import CatBoostRegressor
@@ -30,9 +29,11 @@ def check_create_table(db_connection, table_name: str, queries_path: str) -> Non
             db_connection.create_table(query=query)
 
 
-def main():
+def main(store_number: int):
     """
-    Функция реализует прогнозирование предобученной моделью.
+    Функция реализует прогнозирование предобученной моделью заданного магазина.
+
+    :param store_number: int код прогнозируемого магазина):
     """
     initialize(version_base=None, config_path="../configs")
     cfg = compose(config_name="config.yaml")
@@ -49,6 +50,14 @@ def main():
     )
 
     data = mydb.query("select * from sales")
+
+    # data = pd.read_parquet('./data/sells.parquet')
+
+    # select only provided store
+    data = data[data["store_nbr"] == store_number].reset_index(drop=True)
+
+    if data.shape[0] == 0:
+        return f"Data doesn't contain store: {store_number}. Select other store."
 
     # generate features
     features = feature_generation.apply_feature_generation(
@@ -111,11 +120,17 @@ def main():
 
     mydb.close()
 
-    print(
-        f"{datetime.datetime.now()}, success inference. Prediction is saved to predictions table."
-    )
+    status = f"""
+        {datetime.datetime.now()}, success inference.
+        \nStore: {store_number}
+        \nNumber of items: {data['item_nbr'].nunique()}
 
-    hydra.core.global_hydra.GlobalHydra.instance().clear()
+        \nPrediction is saved to predictions table in DB.
+    """
+
+    print(status)
+
+    return status
 
 
 if __name__ == "__main__":

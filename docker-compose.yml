@@ -8,8 +8,6 @@ services:
 
   db:
     image: postgres:15.0
-    ports:
-      - 8000:5432
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
@@ -20,11 +18,22 @@ services:
     env_file:
       - .env
 
-  model:
+  web:
     build: ./
-    command: celery -A tasks worker --loglevel=INFO -Q train,infer
+    command: python ./manage.py runserver 0.0.0.0:8000
+    ports:
+      - 8000:8000
     depends_on:
       - db
+    env_file:
+      - .env
+    image: sales-forecasting:cp3
+
+  worker:
+    command: celery -A grocery_sales_forecasting_web worker --loglevel=INFO -Q train,infer
+    depends_on:
+      - db
+      - web
       - redis
     env_file:
       - .env
