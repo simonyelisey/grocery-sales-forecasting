@@ -1,8 +1,13 @@
 # Corporación Favorita Grocery Sales Forecasting
 
-В данном проекте реализовано прогнозирование временных рядов из соревнования на kaggle [Corporación Favorita Grocery Sales Forecasting](https://www.kaggle.com/competitions/favorita-grocery-sales-forecasting/overview).
+## Описание проекта
 
-**Для ускорения инференса, отобраны 100 прогнозируемых объектов (Store+Item) и датасет с историей продаж. Промо, цена на нефть и тд не используются.*
+WEB-сервис по прогнозированию спроса на основе данных из соревнования на kaggle [Corporación Favorita Grocery Sales Forecasting](https://www.kaggle.com/competitions/favorita-grocery-sales-forecasting/overview).
+
+Сервис состоит из двух разделов:
+1. Forecasting: в качестве параметра подается код магазина, обученная модель прогнозирует спрос на все товары в этом
+магазине и кладет прогнозы в БД;
+2. Training: запуск обучения модели. На выходе в папку `/models` созраняется обученная модель.
 
 ## Инструкция по запуску
 ```
