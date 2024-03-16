@@ -5,6 +5,7 @@ services:
     image: redis:latest
     ports:
       - 6379:6379
+    restart: on-failure
 
   db:
     image: postgres:15.0
@@ -15,8 +16,10 @@ services:
     volumes:
       - ./data/grocery.sql:/grocery.sql
       - ./restore.sh:/docker-entrypoint-initdb.d/restore.sh
+      - db-data:/var/lib/postgresql/data
     env_file:
       - .env
+    restart: on-failure
 
   web:
     build: ./
@@ -24,9 +27,11 @@ services:
     ports:
       - 8000:8000
     depends_on:
-      - db
+      db:
+        condition: service_started
     env_file:
       - .env
+    restart: on-failure
     image: sales-forecasting:cp3
 
   nginx:
@@ -34,14 +39,23 @@ services:
     ports:
       - 1337:80
     depends_on:
-      - web
+      web:
+        condition: service_started
+    restart: on-failure
 
   worker:
     command: celery -A grocery_sales_forecasting_web worker --loglevel=INFO -Q train,infer
     depends_on:
-      - db
-      - web
-      - redis
+      db:
+        condition: service_started
+      web:
+        condition: service_started
+      redis:
+        condition: service_started
     env_file:
       - .env
+    restart: on-failure
     image: sales-forecasting:cp3
+
+volumes:
+  db-data:
