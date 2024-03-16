@@ -20,7 +20,7 @@ services:
 
   web:
     build: ./
-    command: python ./manage.py runserver 0.0.0.0:8000
+    command: gunicorn grocery_sales_forecasting_web.wsgi:application --bind 0.0.0.0:8000 --timeout 90
     ports:
       - 8000:8000
     depends_on:
@@ -28,6 +28,13 @@ services:
     env_file:
       - .env
     image: sales-forecasting:cp3
+
+  nginx:
+    build: ./nginx
+    ports:
+      - 1337:80
+    depends_on:
+      - web
 
   worker:
     command: celery -A grocery_sales_forecasting_web worker --loglevel=INFO -Q train,infer

@@ -51,8 +51,6 @@ def main(store_number: int):
 
     data = mydb.query("select * from sales")
 
-    # data = pd.read_parquet('./data/sells.parquet')
-
     # select only provided store
     data = data[data["store_nbr"] == store_number].reset_index(drop=True)
 
@@ -127,8 +125,6 @@ def main(store_number: int):
 
         \nPrediction is saved to predictions table in DB.
     """
-
-    print(status)
 
     return status
 
